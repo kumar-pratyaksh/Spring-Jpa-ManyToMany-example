@@ -5,6 +5,7 @@ import java.util.List;
 import org.proptiger.dao.EmployeeDao;
 import org.proptiger.dao.MeetingDao;
 import org.proptiger.model.Employee;
+import org.proptiger.model.Meeting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class Controller {
 	}
 
 	@RequestMapping(value = "/employee", method = RequestMethod.GET)
-	public ResponseEntity<List<Employee>> getAll() {
+	public ResponseEntity<List<Employee>> getAllEmployees() {
 		List<Employee> list = employeeService.findAll();
 		if (list.isEmpty())
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -35,11 +36,27 @@ public class Controller {
 	}
 
 	@RequestMapping(value = "/employee/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Employee> getOne(@PathVariable Long id) {
+	public ResponseEntity<Employee> getEmployee(@PathVariable Long id) {
 		Employee employee = employeeService.findOne(id);
 		if (employee == null)
 			return new ResponseEntity<Employee>(HttpStatus.NO_CONTENT);
 		return new ResponseEntity<Employee>(employee, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/meeting", method = RequestMethod.GET)
+	public ResponseEntity<List<Meeting>> getAllMeetings() {
+		List<Meeting> list = meetingService.findAll();
+		if (list.isEmpty())
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(list, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/meeting/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Meeting> getMeeting(@PathVariable Long id) {
+		Meeting meeting = meetingService.findOne(id);
+		if (meeting == null)
+			return new ResponseEntity<Meeting>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<Meeting>(meeting, HttpStatus.OK);
 	}
 
 }
