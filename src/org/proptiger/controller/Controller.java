@@ -82,4 +82,38 @@ public class Controller {
 		}
 	}
 
+	@RequestMapping(value = "/employee/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> updateEmployee(@RequestBody Employee employee, @PathVariable Long id) {
+		try {
+			employeeService.update(id, employee);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+		}
+	}
+
+	@RequestMapping(value = "/meeting/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> updateMeeting(@RequestBody Meeting meeting, @PathVariable Long id) {
+		try {
+			meetingService.update(id, meeting);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+		}
+	}
+
+	@RequestMapping(value = "/employee/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
+		employeeService.delete(id);
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/meeting/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Void> deleteMeeting(@PathVariable Long id) {
+		meetingService.delete(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
 }
