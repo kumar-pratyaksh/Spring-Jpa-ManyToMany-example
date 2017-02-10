@@ -1,5 +1,6 @@
 package org.proptiger.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import org.proptiger.model.Employee;
@@ -41,5 +42,9 @@ public class MeetingDao {
 	public void addEmployee(Long meetingId, Employee employee) {
 		Meeting meeting = repository.findOne(meetingId);
 		meeting.getEmployees().add(employee);
+	}
+
+	public List<Meeting> findByMeetingDate(Date date) {
+		return repository.findByMeetingDate(date);
 	}
 }
