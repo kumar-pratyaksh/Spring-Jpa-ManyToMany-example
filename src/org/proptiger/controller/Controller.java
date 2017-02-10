@@ -3,6 +3,7 @@ package org.proptiger.controller;
 import java.util.List;
 
 import org.proptiger.dao.EmployeeDao;
+import org.proptiger.dao.EmployeeMeeting;
 import org.proptiger.dao.MeetingDao;
 import org.proptiger.model.Employee;
 import org.proptiger.model.Meeting;
@@ -22,6 +23,8 @@ public class Controller {
 	private EmployeeDao employeeService;
 	@Autowired
 	private MeetingDao meetingService;
+	@Autowired
+	private EmployeeMeeting employeeMeeting;
 
 	@RequestMapping(value = "/test")
 	public ResponseEntity<String> testMapping() {
@@ -74,10 +77,12 @@ public class Controller {
 	@RequestMapping(value = "/meeting", method = RequestMethod.POST)
 	public ResponseEntity<Void> insertMeeting(@RequestBody Meeting meeting) {
 		try {
+			System.out.println(meeting);
 			meetingService.insert(meeting);
 			return new ResponseEntity<>(HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println(e);
 			return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
 		}
 	}
@@ -113,6 +118,12 @@ public class Controller {
 	@RequestMapping(value = "/meeting/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> deleteMeeting(@PathVariable Long id) {
 		meetingService.delete(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/meeting/{meetingId}/employee/{employeeId}", method = RequestMethod.PUT)
+	public ResponseEntity<Void> addEmployee(@PathVariable Long employeeId, @PathVariable Long meetingId) {
+		employeeMeeting.addEmployeeToMeeting(employeeId, meetingId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

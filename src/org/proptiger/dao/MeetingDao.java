@@ -2,14 +2,17 @@ package org.proptiger.dao;
 
 import java.util.List;
 
+import org.proptiger.model.Employee;
 import org.proptiger.model.Meeting;
 import org.proptiger.repository.MeetingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @Service
 public class MeetingDao {
+	@Autowired
 	private MeetingRepository repository;
 
 	public List<Meeting> findAll() {
@@ -21,6 +24,7 @@ public class MeetingDao {
 	}
 
 	public void insert(Meeting meeting) {
+		System.out.println(meeting);
 		repository.save(meeting);
 	}
 
@@ -32,5 +36,10 @@ public class MeetingDao {
 
 	public void delete(Long id) {
 		repository.delete(id);
+	}
+
+	public void addEmployee(Long meetingId, Employee employee) {
+		Meeting meeting = repository.findOne(meetingId);
+		meeting.getEmployees().add(employee);
 	}
 }

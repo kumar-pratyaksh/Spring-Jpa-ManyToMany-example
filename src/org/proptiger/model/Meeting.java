@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "meeting")
@@ -26,7 +29,8 @@ public class Meeting {
 	@Temporal(TemporalType.DATE)
 	private Date meetingDate;
 
-	@ManyToMany(mappedBy = "meetings")
+	@JsonBackReference
+	@ManyToMany(mappedBy = "meetings", fetch = FetchType.EAGER)
 	private Set<Employee> employees = new HashSet<>();
 
 	public Meeting() {
@@ -64,6 +68,12 @@ public class Meeting {
 
 	public void setEmployees(Set<Employee> employees) {
 		this.employees = employees;
+	}
+
+	@Override
+	public String toString() {
+		return "Meeting [id=" + id + ", subject=" + subject + ", meetingDate=" + meetingDate + ", employees="
+				+ employees + "]";
 	}
 
 }
